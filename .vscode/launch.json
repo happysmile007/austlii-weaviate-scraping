@@ -8,7 +8,9 @@
           "module": "scrapy",
           "args": [
               "runspider",
-              "${file}"
+              "${file}",
+              "-O",
+              "austlii.jsonl"
           ],
           "console": "integratedTerminal"
       }

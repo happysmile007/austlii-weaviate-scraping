@@ -1,3 +1,4 @@
+import markdownify
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
@@ -13,7 +14,7 @@ class ArticleItem(Item):
 class AustliiSpider(CrawlSpider):
     name = "austlii"
     allowed_domains = ["austlii.edu.au"]
-    start_urls = ["https://austlii.edu.au/databases.html"]
+    start_urls = ["https://www.austlii.edu.au/databases.html"]
     link_extractor = LinkExtractor(allow=())
     rules = (Rule(link_extractor, callback="parse_item", follow=True),)
 
@@ -26,7 +27,7 @@ class AustliiSpider(CrawlSpider):
             article = ArticleItem()
             article["url"] = response.url
             article["title"] = response.css("title::text").get()
-            article["content"] = response.css("article").xpath("string()").get()
+            article["content"] = markdownify.markdownify(response.css("article").get())
 
             yield article
 

@@ -28,7 +28,6 @@ class AustliiSpider(CrawlSpider):
             article["url"] = response.url
             article["title"] = response.css("title::text").get()
             article["content"] = markdownify(response.css("article").get())
-
             yield article
 
         for link in self.link_extractor.extract_links(response):

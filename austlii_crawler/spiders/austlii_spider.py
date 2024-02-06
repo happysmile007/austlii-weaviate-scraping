@@ -1,8 +1,8 @@
-import markdownify
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.item import Item, Field
+from markdownify import markdownify
 
 
 class ArticleItem(Item):
@@ -27,7 +27,7 @@ class AustliiSpider(CrawlSpider):
             article = ArticleItem()
             article["url"] = response.url
             article["title"] = response.css("title::text").get()
-            article["content"] = markdownify.markdownify(response.css("article").get())
+            article["content"] = markdownify(response.css("article").get())
 
             yield article
 

@@ -1,3 +1,4 @@
+import os
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
@@ -6,13 +7,13 @@ from markdownify import markdownify
 import weaviate
 import tiktoken
 
-OPENAI_API_KEY = ""
-OPENAI_MODEL = ""
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+OPENAI_MODEL = os.environ.get('OPENAI_MODEL')
 WEAVIATE_INSTANCE_URL = (
-    ""
+    os.environ.get('WEAVIATE_INSTANCE_URL')
 )
-WEAVIATE_API_KEY = ""
-WEAVIATE_MAX_TOKEN_LIMIT = 8000
+WEAVIATE_API_KEY = os.environ.get('WEAVIATE_API_KEY')
+WEAVIATE_MAX_TOKEN_LIMIT = os.environ.get('WEAVIATE_MAX_TOKEN_LIMIT')
 
 
 class WeaviateService:
@@ -98,8 +99,8 @@ class AustliiSpider(CrawlSpider):
             if self.weaviate_service.is_new_data(article):
                 print("---------------------------------------------------------------")
                 try:
-                    print(f"Title: {article["title"].strip()}")
-                    print(f"URL: {article["url"]}")
+                    print(f"Title: {article['title'].strip()}")
+                    print(f"URL: {article['url']}")
                     upload_data = {
                         "url": article["url"],
                         "title": article["title"],
